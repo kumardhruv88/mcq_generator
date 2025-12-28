@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartQuiz AI | Generate & Learn</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🎓 SmartQuiz AI</h1>
+    <p class="subtitle">Transform text and documents into interactive quizzes instantly.</p>
+  </header>
+
+  <form id="quiz-form" method="POST" enctype="multipart/form-data" class="card">
+    <div class="input-group">
+      <textarea name="text" placeholder="Paste your study material here..."></textarea>
+    </div>
+
+    <div class="divider">OR UPLOAD DOCUMENT</div>
+
+    <div class="file-upload-wrapper">
+        <label class="file-upload-label">
+            <input type="file" name="pdf" accept=".pdf">
+            <span>📎 Choose PDF File</span>
+        </label>
+    </div>
+
+    <div class="options-grid">
+      <input type="number" name="num_questions" placeholder="Number of Questions (e.g. 5)" min="1" max="20" required>
+      <select name="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      🚀 Generate Quiz
+    </button>
+  </form>
+
+  <div id="results-section">
+      {% if summary %}
+      <div class="card">
+        <h2>📌 Summary</h2>
+        <p class="summary-text">{{ summary }}</p>
+      </div>
+      {% endif %}
+
+      {% if quiz %}
+      <div class="card">
+        <h2>📝 Quiz Challenge</h2>
+        <form action="/export" method="POST">
+            {% for q in quiz %}
+            <div class="question-item">
+                <p class="question-text">{{ loop.index }}. {{ q.question }}</p>
+                <div class="options-list">
+                    {% for key, opt in q.options.items() %}
+                    <label>
+                    <input type="radio" name="q{{ loop.index }}" value="{{ key }}">
+                    {{ key }}. {{ opt }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <button class="btn btn-secondary">
+                📄 Export Result as PDF
+            </button>
+        </form>
+      </div>
+      {% endif %}
+
+      {% if guide %}
+      <div class="card">
+        <h2>📚 Learning Guide</h2>
+        <pre style="white-space: pre-wrap; font-family: inherit;">{{ guide }}</pre>
+      </div>
+      {% endif %}
+  </div>
+
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loader"></div>
+    <h3 style="color: white; font-weight: 600;">Generating your quiz...</h3>
+    <p style="color: rgba(255,255,255,0.7);">This may take a moment.</p>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
