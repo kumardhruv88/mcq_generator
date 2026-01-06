@@ -57,23 +57,6 @@ The system leverages **Groq’s ultra-fast inference** with **LLaMA 3.3 (70B)** 
 - **REST-style architecture**
 
 ---
-User
-↓
-HTML/CSS UI
-↓
-Flask Backend
-├── PDF/Text Ingestion
-├── Prompt Engineering Layer
-├── Groq LLM (LLaMA 3.3 70B)
-│ ├── Summary Generation
-│ ├── MCQ Generation
-│ └── Learning Guide Creation
-├── MCQ Parsing Engine
-└── PDF Export Module
-↓
-Formatted Quiz & Learning Output
-
-
 ---
 
 ## 📊 Performance Metrics (Observed)
@@ -97,28 +80,6 @@ Formatted Quiz & Learning Output
 
 ---
 
-## 🧩 Project Structure
-
-mcq_generator/
-│
-├── app.py # Flask app
-├── groq_client.py # Groq API wrapper
-├── prompts.py # Prompt engineering logic
-├── requirements.txt
-│
-├── utils/
-│ ├── pdf_reader.py # PDF text extraction
-│ ├── mcq_parser.py # Structured MCQ parsing
-│ └── pdf_exporter.py # Export quiz to PDF
-│
-├── templates/
-│ └── index.html # Frontend UI
-│
-├── static/
-│ └── style.css # Styling
-│
-├── uploads/ # Temporary PDF storage
-└── .env # API keys (ignore)
 🚀 Future Enhancements
 
 Auto-evaluation & scoring
